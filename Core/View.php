@@ -11,16 +11,21 @@ class View
     public static function render($view, $contentType = 'text/html', $args = [])
     {
         extract($args, EXTR_SKIP);
-        
+
         header("Content-Type: $contentType");
 
         $file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
 
-        if (is_readable($file)) {
-            require $file;
-        } else {
+        if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
+            header("Content-Length: " . filesize($file));
+            return;
+        }
+
+        if (!is_readable($file)) {
             throw new \Exception("$file not found");
         }
+
+        require $file;
     }
 
     /**
@@ -37,6 +42,13 @@ class View
 
         header("Content-Type: $contentType");
 
-        echo $twig->render($template, $args);
+        $output = $twig->render($template, $args);
+
+        if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
+            header("Content-Length: " . strlen($output)));
+            return;
+        }
+
+        echo $output;
     }
 }

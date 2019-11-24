@@ -40,8 +40,18 @@ class Router
             $params = $route->getParams();
             $pattern = $route->getPattern();
 
-            if (preg_match($pattern, $url, $matches) &&
-                strtoupper($route->getMethod()) == strtoupper($method)) {
+            if (
+                    preg_match($pattern, $url, $matches)
+                    &&
+                    (
+                        strtoupper($route->getMethod()) == strtoupper($method)
+                        ||
+                        strtoupper($method) == 'HEAD'
+                        &&
+                        // Can only use HEAD instead of GET
+                        strtoupper($route->getMethod()) == 'GET'
+                    )
+            ) {
                 // Get named capture group values
                 foreach ($matches as $key => $match) {
                     if (is_string($key)) {

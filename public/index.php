@@ -44,9 +44,5 @@ if ($matches[0][2] != '') {
     $QueryString .= "&" . $matches[0][2]; // Group 2: params
 }
 
-// TODO: respond only with the header of the file requested
-if ($_SERVER['REQUEST_METHOD'] == 'HEAD')
-    return true;
-
 // Send the query string to the router
 $router->dispatch($QueryString, $_SERVER['REQUEST_METHOD']);
