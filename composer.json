@@ -1,0 +1,16 @@
+{
+    "name": "hyftar/circuit-voyages",
+    "type": "project",
+    "require": {
+        "twig/twig": "~2.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
+    },
+    "autoload": {
+        "psr-4": {
+             "Core\\": "Core/",
+             "App\\": "App/"
+        }
+    }
+}

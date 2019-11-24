@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomatoes>
+    <tomato>
+      <id>1</id>
+      <colours>
+        <leaf>#116203</leaf>
+        <core>#AA0F0F</core>
+      </colours>
+      <weight unit="grams">170</weight>
+    </tomato>
+    <tomato>
+      <id>2</id>
+      <colours>
+        <leaf>#318822</leaf>
+        <core>#BB2C2C</core>
+      </colours>
+      <weight unit="ounces">5</weight>
+    </tomato>
+    <tomato>
+      <id>3</id>
+      <colours>
+        <leaf>#5AB04B</leaf>
+        <core>#54903F</core>
+      </colours>
+      <weight unit="grams">21</weight>
+    </tomato>
+</tomatoes>

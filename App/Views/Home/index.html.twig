@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Home {{ parent() }}{% endblock %}
+
+{% block content %}
+  <h2>Controller: Home</h2>
+  <h3>Action: Index</h3>
+  
+  <p>
+    We have static files! See our collection of homegrown xml-tomatoes
+    <a href="/tomatoes/">here</a>
+  </p>
+  
+  <p>
+    We also have error pages, such as 404!
+    <a href="/non/existant/route/">here</a>
+  </p>
+{% endblock %}
