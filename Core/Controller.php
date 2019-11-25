@@ -4,7 +4,6 @@ namespace Core;
 
 abstract class Controller
 {
-
     /**
      * Parameters from the matched route
      */
@@ -29,10 +28,11 @@ abstract class Controller
             );
         }
 
-        if ($this->before() !== false) {
-            call_user_func_array([$this, $method], $args);
-            $this->after();
-        }
+        if ($this->before() === false)
+            return;
+
+        call_user_func_array([$this, $method], $args);
+        $this->after();
     }
 
     /**
