@@ -22,6 +22,12 @@ $router->add(
 );
 
 $router->add(
+    'custom/{id:\d+}/{leaf:[a-f0-9]+}/{core:[a-f0-9]+}/{weight:\d+}/',
+    ['controller' => 'StaticFiles', 'action' => 'customTomato'],
+    'POST'
+);
+
+$router->add(
     '',
     ['controller' => 'Home', 'action' => 'index']
 );

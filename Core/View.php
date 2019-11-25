@@ -45,7 +45,7 @@ class View
         $output = $twig->render($template, $args);
 
         if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
-            header("Content-Length: " . strlen($output)));
+            header("Content-Length: " . strlen($output));
             return;
         }
 
