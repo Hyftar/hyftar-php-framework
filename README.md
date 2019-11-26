@@ -61,7 +61,15 @@ $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 ```
 
 Unless otherwise specified, every route will respond only to the `GET` HTTP
-method. You
+method. You can specify the request method by passing a string as the 3rd
+parameter:
+
+```php
+$router->add('login', ['controller' => 'login', 'action' => 'create'], 'POST');
+```
+
+Every `GET` route also supports `HEAD` requests which will return only the
+header of the response along with the `Content-Length`.
 
 ### Controllers
 
@@ -87,7 +95,7 @@ Views are used to display information (normally using HTML). View
 files go in the App/Views folder. Views can be in one of two formats: standard
 PHP, but with just enough PHP to show the data. No database access or anything
 like that should occur in a view file. You can render a standard PHP view in a
-controller, optionally specifying the content-type and passing in variables, 
+controller, optionally specifying the content-type and passing in variables,
 like this:
 
 ```php
@@ -95,7 +103,7 @@ View::render(
   'Home/index.php',
   'text/html',
   [
-    'id'    => '2',
+    'id' => '2',
     'colours' => [
       'leaf' => '#318822',
       'core' => '#BB2C2C'
