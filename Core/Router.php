@@ -116,17 +116,12 @@ class Router
 
     protected function removeQueryStringVariables($url)
     {
-        if ($url != '') {
-            $parts = explode('&', $url, 2);
+        $parts = explode('&', $url, 2);
 
-            if (strpos($parts[0], '=') === false) {
-                $url = $parts[0];
-            } else {
-                $url = '';
-            }
-        }
+        if ($url == '' || strpos($parts[0], '=') !== false)
+            return '';
 
-        return $url;
+        return $parts[0];
     }
 
     protected function getNamespace()

@@ -1,4 +1,11 @@
 <?php
+
+/**
+ * Starts user sessions
+ */
+
+session_start();
+
 /**
  * Composer
  */
@@ -21,6 +28,9 @@ $router->add(
     ['controller' => 'StaticFiles', 'action' => 'tomatoes']
 );
 
+// In a production environment this should be a POST
+// but since this is just an example, I use this to demonstrate
+// how to pass parameters to your routes.
 $router->add(
     'custom/{id:\d+}/{leaf:[a-f0-9]+}/{core:[a-f0-9]+}/{weight:\d+}/',
     ['controller' => 'StaticFiles', 'action' => 'customTomato']

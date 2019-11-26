@@ -12,12 +12,12 @@ class View
     {
         extract($args, EXTR_SKIP);
 
-        header("Content-Type: $contentType");
-
         $file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
 
+        header("Content-Type: $contentType");
+        header("Content-Length: " . filesize($file));
+
         if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
-            header("Content-Length: " . filesize($file));
             return;
         }
 
@@ -40,12 +40,12 @@ class View
             $twig = new \Twig_Environment($loader);
         }
 
-        header("Content-Type: $contentType");
-
         $output = $twig->render($template, $args);
 
+        header("Content-Type: $contentType");
+        header("Content-Length: " . strlen($output));
+
         if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
-            header("Content-Length: " . strlen($output));
             return;
         }
 
