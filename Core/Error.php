@@ -30,7 +30,7 @@ class Error
             return;
         }
 
-        $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.txt';
+        $log = dirname(__DIR__) . '/logs/' . date('Y-m-d') . '.log';
         ini_set('error_log', $log);
 
         $message = "Uncaught exception: '" . get_class($exception) . "'";
