@@ -51,4 +51,17 @@ class View
 
         echo $output;
     }
+
+    public static function renderJSON($json)
+    {
+        $output = json_encode($json);
+        header("Content-Type: application/json");
+        header("Content-Length: " . strlen($output));
+
+        if ($_SERVER['REQUEST_METHOD'] == 'HEAD') {
+            return;
+        }
+
+        echo $output;
+    }
 }
