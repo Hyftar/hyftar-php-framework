@@ -12,5 +12,7 @@ class Config
     # Randomly generated pepper used for encryption
     const PEPPER = '364aba675151243a1e105cee426271f843bd1bdd7ab822291fce8b8455d7c6e4';
 
+    const LOG_TO_FILE = false;
+
     const SHOW_ERRORS = false;
 }
