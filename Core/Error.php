@@ -13,9 +13,13 @@ class Error
 
     public static function exceptionHandler($exception)
     {
-        // Code is 404 (not found) or 500 (server-side error)
+        static $supported_codes = [404];
+
+        // If error code isn't supported by your app,
+        // convert it into 500 (generic server error)
         $code = $exception->getCode();
-        if ($code != 404) {
+
+        if (!in_array($code, $supported_codes)) {
             $code = 500;
         }
 
