@@ -45,11 +45,11 @@ like within curly braces, and also specify a custom regular expression for that
 parameter:
 
 ```php
-$router->add('{controller}/{id:\d+}/{action}');
+$router->add('{controller}/{id:/\d+/}/{action}/{name}');
 ```
 
 Your custom parameters must respect this Regex Pattern:
-`/\{([a-z]+):([^\}]+)\}/`
+`/\{([a-z]+):\/(.+?)\/\}/`
 
 The first group being the parameter name and second being the pattern that
 will match the value.

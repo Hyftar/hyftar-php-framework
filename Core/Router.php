@@ -12,14 +12,15 @@ class Router
     {
         $route = trim($route, '/');
 
-        // Convert the route to a regular expression: escape forward slashes
-        $route = preg_replace('/\//', '\\/', $route);
-
+        // Convert the string to a RegEx pattern
         // Convert variables e.g. {controller}
         $route = preg_replace('/\{([a-z]+)\}/', '(?P<\1>[a-z-]+)', $route);
 
-        // Convert variables with custom regular expressions e.g. {id:\d+}
-        $route = preg_replace('/\{([a-z]+):([^\}]+)\}/', '(?P<\1>\2)', $route);
+        // Convert variables with custom regular expressions e.g. {id:/\d+/}
+        $route = preg_replace('/\{([a-z]+):\/(.+?)\/\}/', '(?P<\1>\2)', $route);
+
+        // Escape forward slashes
+        $route = preg_replace('/\//', '\\/', $route);
 
         // Add start and end delimiters, and case insensitive flag
         $route = '/^' . $route . '$/i';

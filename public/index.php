@@ -35,7 +35,7 @@ $router->add(
 // but since this is just an example, I use this to demonstrate
 // how to add path parameters to your routes.
 $router->add(
-    'custom/{id:\d+}/{leaf:[a-f0-9]+}/{core:[a-f0-9]+}/{weight:\d+}',
+    'custom/{id:/\d+/}/{leaf:/[a-f0-9]{3}|[a-f0-9]{6}/}/{core:/[a-f0-9]{3}|[a-f0-9]{6}/}/{weight:/\d+/}',
     ['controller' => 'Tomatoes', 'action' => 'customTomato']
 );
 
