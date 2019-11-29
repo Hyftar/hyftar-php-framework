@@ -27,40 +27,28 @@ set_exception_handler('Core\Error::exceptionHandler');
 $router = new Core\Router();
 
 $router->add(
-    'tomatoes/',
-    ['controller' => 'StaticFiles', 'action' => 'tomatoes']
+    'tomatoes',
+    ['controller' => 'Tomatoes', 'action' => 'tomatoes']
 );
 
-// In a production environment this should be a POST
+// In a real project this should be a POST request
 // but since this is just an example, I use this to demonstrate
-// how to pass parameters to your routes.
+// how to add path parameters to your routes.
 $router->add(
-    'custom/{id:\d+}/{leaf:[a-f0-9]+}/{core:[a-f0-9]+}/{weight:\d+}/',
-    ['controller' => 'StaticFiles', 'action' => 'customTomato']
+    'custom/{id:\d+}/{leaf:[a-f0-9]+}/{core:[a-f0-9]+}/{weight:\d+}',
+    ['controller' => 'Tomatoes', 'action' => 'customTomato']
 );
 
 $router->add(
     '',
-    ['controller' => 'Home', 'action' => 'index']
+    [
+        'controller' => 'Home',
+        'action' => 'index',
+        'allowed_variables' => ['id', 'page']
+    ]
 );
 
 // Add more routes here
 
-/**
- * Convert URI to QueryString
- */
-preg_match_all(
-    '/^\/?(.*?)\??((?:&?\w+\=?\w+)*)$/i',
-    $_SERVER['REQUEST_URI'],
-    $matches,
-    PREG_SET_ORDER,
-    0
-);
-
-$QueryString = $matches[0][1]; // Group 1: Controller/Action
-if ($matches[0][2] != '') {
-    $QueryString .= "&" . $matches[0][2]; // Group 2: params
-}
-
-// Send the query string to the router
-$router->dispatch($QueryString, $_SERVER['REQUEST_METHOD']);
+// Send the URI and Method to the dispatcher
+$router->dispatch($_SERVER['REQUEST_URI'], $_SERVER['REQUEST_METHOD']);

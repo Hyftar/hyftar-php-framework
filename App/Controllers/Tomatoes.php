@@ -4,12 +4,12 @@ namespace App\Controllers;
 
 use \Core\View;
 
-class StaticFiles extends \Core\Controller
+class Tomatoes extends \Core\Controller
 {
     public function customTomatoAction()
     {
         View::renderTemplate(
-            'Static/custom_tomato.xml.twig',
+            'Tomatoes/custom_tomato.xml.twig',
             'text/xml',
             [
                 'id' => $this->route_params['id'],
@@ -22,6 +22,6 @@ class StaticFiles extends \Core\Controller
 
     public function tomatoesAction()
     {
-        View::render('Static/tomatoes.xml', 'text/xml');
+        View::render('Tomatoes/tomatoes.xml', 'text/xml');
     }
 }

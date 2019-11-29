@@ -10,6 +10,8 @@ class Router
 
     public function add($route, $params = [], $method = 'GET')
     {
+        $route = trim($route, '/');
+
         // Convert the route to a regular expression: escape forward slashes
         $route = preg_replace('/\//', '\\/', $route);
 
@@ -72,12 +74,38 @@ class Router
         return $this->params;
     }
 
-    public function dispatch($url, $method)
+    public function dispatch($uri, $method)
     {
-        $url = $this->removeQueryStringVariables($url);
+        list(/* skip */, $url, $variables) = $this->convertUriToQueryString($uri);
+
+        $url = trim($url, '/');
 
         if (!$this->match($url, $method))  {
             throw new \Exception('No route matched.', 404);
+        }
+
+        $this->params['variables'] = [];
+
+        if (array_key_exists('allowed_variables', $this->params)) {
+            foreach (explode('&', $variables) as $pair) {
+                if (!preg_match(
+                        '/^(\w+)=?(\w*)$/i',
+                        $pair,
+                        $match,
+                        PREG_UNMATCHED_AS_NULL
+                    )
+                ) {
+                    continue;
+                }
+
+                list(/* skip */, $key, $value) = $match;
+
+                // Skip unexpected variables
+                if (!in_array($key, $this->params['allowed_variables']))
+                    continue;
+
+                $this->params['variables'][$key] = $value;
+            }
         }
 
         $controller = $this->params['controller'];
@@ -114,14 +142,21 @@ class Router
         return lcfirst($this->convertToStudlyCaps($string));
     }
 
-    protected function removeQueryStringVariables($url)
+    protected function convertUriToQueryString($url)
     {
-        $parts = explode('&', $url, 2);
+        preg_match(
+            '/^([^&\s\?]*?)(?:\?((?:&?\w+=?\w*)*))?$/i',
+            $url,
+            $matches
+        );
 
-        if ($url == '' || strpos($parts[0], '=') !== false)
-            return '';
+        // The RegEx pattern has 2 groups but since group 2 is optional,
+        // we have to append null manually
+        if (count($matches) == 2) {
+            $matches[] = null;
+        }
 
-        return $parts[0];
+        return $matches;
     }
 
     protected function getNamespace()

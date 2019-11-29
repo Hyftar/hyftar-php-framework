@@ -71,6 +71,24 @@ $router->add('login', ['controller' => 'login', 'action' => 'create'], 'POST');
 Every `GET` route also supports `HEAD` requests which will return only the
 header of the response along with the `Content-Length`.
 
+Your routes can also support variables that aren't part of the path, e.g.
+`tomatoes?page=2`
+
+You must specify which variables are allowed. You can add the
+`allowed_variables` entry in the params array, like this:
+
+```php
+$router->add(
+  'tomatoes',
+  [
+    'controller' => 'Static',
+    'action' => 'list',
+    'allowed_variables' => ['page']
+  ]
+);
+```
+
+
 ### Controllers
 
 Controllers respond to client actions (clicking on a link, submitting a form
