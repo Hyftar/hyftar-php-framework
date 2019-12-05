@@ -30,7 +30,7 @@ the controller and action, like this:
 
 ```php
 $router->add('', ['controller' => 'Home', 'action' => 'index']);
-$router->add('tomatoes/', ['controller' => 'StaticFiles', 'action' => 'tomatoes']);
+$router->add('tomatoes', ['controller' => 'Tomatoes', 'action' => 'index']);
 ```
 
 You can also write "catch all" routes which will find the controller and
@@ -54,11 +54,15 @@ Your custom parameters must respect this Regex Pattern:
 The first group being the parameter name and second being the pattern that
 will match the value.
 
-You can also specify a namespace for the controller:
+You can also specify a namespace for the controller which is just a way to
+keep your controllers organized:
 
 ```php
 $router->add('admin/{controller}/{action}', ['namespace' => 'Admin']);
 ```
+
+This will look in the folder `App/Controllers/Admin` for the controller in the
+path.
 
 Unless otherwise specified, every route will respond only to the `GET` HTTP
 method. You can specify the request method by passing a string as the 3rd
@@ -88,6 +92,8 @@ $router->add(
 );
 ```
 
+The variables values are then passed to the `$params` attribute in the controller
+under the `'variables'` key (i.e. `$params['variables']`).
 
 ### Controllers
 
@@ -119,7 +125,6 @@ like this:
 ```php
 View::render(
   'Home/index.php',
-  'text/html',
   [
     'id' => '2',
     'colours' => [
@@ -130,7 +135,8 @@ View::render(
       'unit' => 'ounces',
       'value' => '5'
     ]
-  ]
+  ],
+  'text/html' // 'text/html' is the default so this is optional
 );
 ```
 
@@ -142,7 +148,6 @@ like this:
 ```php
 View::renderTemplate(
   'Home/index.php',
-  'text/html',
   [
     'id'    => '2',
     'colours' => [

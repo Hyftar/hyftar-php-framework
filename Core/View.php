@@ -8,7 +8,7 @@ class View
     /**
      * Render a view file (.php or .html)
      */
-    public static function render($view, $contentType = 'text/html', $args = [])
+    public static function render($view, $args = [], $contentType = 'text/html')
     {
         extract($args, EXTR_SKIP);
 
@@ -31,7 +31,7 @@ class View
     /**
      * Render a view template using Twig
      */
-    public static function renderTemplate($template, $contentType = 'text/html', $args = [])
+    public static function renderTemplate($template, $args = [], $contentType = 'text/html')
     {
         static $twig = null;
 
