@@ -1,18 +1,17 @@
 <?php
 
 /**
- * Starts user sessions
- */
-
-session_start();
-
-/**
- * Composer
- */
+* Composer
+*/
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $dotenv = Dotenv\Dotenv::create(__DIR__ . '/../');
 $dotenv->load();
+
+/**
+ * Starts user sessions
+ */
+session_start();
 
 /**
  * Error and Exception handling
