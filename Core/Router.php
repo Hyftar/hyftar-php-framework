@@ -90,7 +90,7 @@ class Router
         if (array_key_exists('allowed_variables', $this->params)) {
             foreach (explode('&', $variables) as $pair) {
                 if (!preg_match(
-                        '/^(\w+)=?(\w*)$/i',
+                        '/^([^=]+)=?(.*?)$/i',
                         $pair,
                         $match,
                         PREG_UNMATCHED_AS_NULL
@@ -146,16 +146,10 @@ class Router
     protected function convertUriToQueryString($url)
     {
         preg_match(
-            '/^([^&\s\?]*?)(?:\?((?:&?\w+=?\w*)*))?$/i',
+            '/^([^&\s\?]*)(?:[?&]?(.*?))$/i',
             $url,
             $matches
         );
-
-        // The RegEx pattern has 2 groups but since group 2 is optional,
-        // we have to append null manually
-        if (count($matches) == 2) {
-            $matches[] = null;
-        }
 
         return $matches;
     }
