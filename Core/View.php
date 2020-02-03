@@ -54,7 +54,7 @@ class View
 
     public static function renderJSON($json)
     {
-        $output = json_encode($json);
+        $output = json_encode($json, JSON_UNESCAPED_UNICODE);
         header("Content-Type: application/json");
         header("Content-Length: " . strlen($output));
 
