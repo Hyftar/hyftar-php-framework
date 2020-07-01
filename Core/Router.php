@@ -2,11 +2,39 @@
 
 namespace Core;
 
-class Router
+interface iRouter
+{
+    public function get($route, $params = []);
+    public function post($route, $params = []);
+    public function add($route, $params = [], $method = 'GET');
+    public function getRoutes();
+    public function match($url, $method);
+    public function getParams();
+    public function dispatch($uri, $method);
+}
+
+class Router implements iRouter
 {
 
     protected $routes = [];
     protected $params = [];
+
+    protected $renderer;
+
+    public function __construct(iRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+    }
+
+    public function get($route, $params = [])
+    {
+        $this->add($route, $params, 'GET');
+    }
+
+    public function post($route, $params = [])
+    {
+        $this->add($route, $params, 'POST');
+    }
 
     public function add($route, $params = [], $method = 'GET')
     {
@@ -117,7 +145,8 @@ class Router
             throw new \Exception("Controller class $controller not found");
         }
 
-        $controller_object = new $controller($this->params);
+        $controller_object = new $controller($this->renderer);
+        $controller_object->setParameters($this->params);
 
         $action = $this->params['action'];
         $action = $this->convertToCamelCase($action);

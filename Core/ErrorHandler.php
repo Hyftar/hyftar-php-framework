@@ -2,16 +2,23 @@
 
 namespace Core;
 
-class Error
+class ErrorHandler
 {
-    public static function errorHandler($level, $message, $file, $line)
+    protected $renderer;
+
+    public function __construct(iRenderer $renderer)
     {
-        if (error_reporting() !== 0) {  // to keep the @ operator working
+        $this->renderer = $renderer;
+    }
+
+    public function handleError($level, $message, $file, $line)
+    {
+        if (error_reporting() !== 0) {
             throw new \ErrorException($message, 0, $level, $file, $line);
         }
     }
 
-    public static function exceptionHandler($exception)
+    public function handleException($exception)
     {
         static $supported_codes = [404];
 
@@ -44,6 +51,6 @@ class Error
 
         error_log($message, \App\Config::LOG_TO_FILE ? 0 : 4);
 
-        View::renderTemplate("$code.html.twig");
+        $this->renderer->renderTemplate("$code.html.twig");
     }
 }

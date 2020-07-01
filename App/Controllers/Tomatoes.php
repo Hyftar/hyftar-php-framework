@@ -8,7 +8,7 @@ class Tomatoes extends \Core\Controller
 {
     public function customTomatoAction()
     {
-        View::renderTemplate(
+        $this->renderTemplate(
             'Tomatoes/custom_tomato.xml.twig',
             [
                 'id' => $this->route_params['id'],
@@ -22,6 +22,6 @@ class Tomatoes extends \Core\Controller
 
     public function tomatoesAction()
     {
-        View::render('Tomatoes/tomatoes.xml', [], 'text/xml');
+        $this->render('Tomatoes/tomatoes.xml', [], 'text/xml');
     }
 }

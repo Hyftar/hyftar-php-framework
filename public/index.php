@@ -13,19 +13,23 @@ $dotenv->load();
  */
 session_start();
 
+$renderer = new Core\Renderer();
+
 /**
  * Error and Exception handling
  */
+
+$error_handler = new Core\ErrorHandler($renderer);
 error_reporting(E_ALL);
-set_error_handler('Core\Error::errorHandler');
-set_exception_handler('Core\Error::exceptionHandler');
+set_error_handler([$error_handler, 'handleError']);
+set_exception_handler([$error_handler, 'handleException']);
 
 /**
  * Routing
  */
-$router = new Core\Router();
+$router = new Core\Router($renderer);
 
-$router->add(
+$router->get(
     'tomatoes',
     ['controller' => 'Tomatoes', 'action' => 'tomatoes']
 );
@@ -33,12 +37,12 @@ $router->add(
 // In a real project this should be a POST request
 // but since this is just an example, I use this to demonstrate
 // how to add path parameters to your routes.
-$router->add(
+$router->get(
     'custom/{id:/\d+/}/{leaf:/[a-f0-9]{3}|[a-f0-9]{6}/}/{core:/[a-f0-9]{3}|[a-f0-9]{6}/}/{weight:/\d+/}',
     ['controller' => 'Tomatoes', 'action' => 'customTomato']
 );
 
-$router->add(
+$router->get(
     '',
     [
         'controller' => 'Home',

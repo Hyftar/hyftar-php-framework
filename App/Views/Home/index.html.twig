@@ -15,4 +15,10 @@
     We also have error pages, such as 404!
     <a href="non/existant/route">here</a>
   </p>
+
+  {% if page %}
+  <div>
+    Page {{page}}
+  </div>
+  {% endif %}
 {% endblock %}

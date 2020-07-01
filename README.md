@@ -95,6 +95,9 @@ $router->add(
 The variables values are then passed to the `$params` attribute in the controller
 under the `'variables'` key (i.e. `$params['variables']`).
 
+The router also supports `get` and `post` methods for adding routes more
+explicitly.
+
 ### Controllers
 
 Controllers respond to client actions (clicking on a link, submitting a form
@@ -123,7 +126,7 @@ controller, optionally specifying the content-type and passing in variables,
 like this:
 
 ```php
-View::render(
+$this->renderer->render(
   'Home/index.php',
   [
     'id' => '2',
@@ -146,7 +149,7 @@ of things like template inheritance. You can render a Twig template
 
 like this:
 ```php
-View::renderTemplate(
+$this->renderer->renderTemplate(
   'Home/index.php',
   [
     'id'    => '2',

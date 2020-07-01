@@ -2,17 +2,27 @@
 
 namespace Core;
 
-class View
+interface iRenderer
 {
+    public function render($view, $args = [], $contentType = 'text/html');
+    public function renderTemplate($template, $args = [], $contentType = 'text/html');
+    public function renderJSON($json);
+}
 
+class Renderer implements iRenderer
+{
     /**
      * Render a view file (.php or .html)
      */
-    public static function render($view, $args = [], $contentType = 'text/html')
+    public function render($view, $args = [], $contentType = 'text/html')
     {
         extract($args, EXTR_SKIP);
 
         $file = dirname(__DIR__) . "/App/Views/$view";  // relative to Core directory
+
+        if (!is_readable($file)) {
+            throw new \Exception("$file not found");
+        }
 
         header("Content-Type: $contentType");
         header("Content-Length: " . filesize($file));
@@ -21,17 +31,13 @@ class View
             return;
         }
 
-        if (!is_readable($file)) {
-            throw new \Exception("$file not found");
-        }
-
         require $file;
     }
 
     /**
      * Render a view template using Twig
      */
-    public static function renderTemplate($template, $args = [], $contentType = 'text/html')
+    public function renderTemplate($template, $args = [], $contentType = 'text/html')
     {
         static $twig = null;
 
@@ -52,7 +58,7 @@ class View
         echo $output;
     }
 
-    public static function renderJSON($json)
+    public function renderJSON($json)
     {
         $output = json_encode($json, JSON_UNESCAPED_UNICODE);
         header("Content-Type: application/json");

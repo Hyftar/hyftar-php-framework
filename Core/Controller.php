@@ -9,7 +9,14 @@ abstract class Controller
      */
     protected $route_params = [];
 
-    public function __construct($route_params)
+    protected $renderer;
+
+    public function __construct(iRenderer $renderer)
+    {
+        $this->renderer = $renderer;
+    }
+
+    public function setParameters($route_params)
     {
         $this->route_params = $route_params;
     }
@@ -18,7 +25,7 @@ abstract class Controller
      * Action methods need to be named
      * with an "Action" suffix, e.g. indexAction, showAction etc.
      */
-    public function __call($name, $args)
+    public function __call(string $name, array $args)
     {
         $method = $name . 'Action';
 
@@ -47,5 +54,20 @@ abstract class Controller
      */
     protected function after()
     {
+    }
+
+    protected function render(string $view, array $args = [], string $contentType = 'text/html')
+    {
+        $this->renderer->render($view, $args, $contentType);
+    }
+
+    protected function renderTemplate($template, $args = [], $contentType = 'text/html')
+    {
+        $this->renderer->renderTemplate($template, $args, $contentType);
+    }
+
+    protected function renderJSON(array $json)
+    {
+        $this->renderer->renderJSON($json);
     }
 }
